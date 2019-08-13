@@ -1006,5 +1006,5 @@ class KeycloakAdmin:
         GET /{realm}/roles/{role-name}/users
         """
         params_path = {"realm-name": self.realm_name, "role-name": role_name}
-        return self.__fetch_all(URL_ADMIN_USERS.format(**params_path), query)
+        return self.__fetch_all(URL_ADMIN_USERS_BY_ROLES.format(**params_path), query)
 
