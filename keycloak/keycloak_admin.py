@@ -998,3 +998,13 @@ class KeycloakAdmin:
         params_path = {"realm-name": self.realm_name, "id": client_id}
         data_raw = self.connection.raw_get(URL_ADMIN_CLIENT_SECRETS.format(**params_path))
         return raise_error_from_response(data_raw, KeycloakGetError)
+
+    def get_users_by_role(self, role_name, query=None):
+        """
+        Return List of Users that have the specified role name
+
+        GET /{realm}/roles/{role-name}/users
+        """
+        params_path = {"realm-name": self.realm_name, "role-name": role_name}
+        return self.__fetch_all(URL_ADMIN_USERS.format(**params_path), query)
+

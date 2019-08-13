@@ -33,6 +33,7 @@ URL_AUTH = "{authorization-endpoint}?client_id={client-id}&response_type=code&re
 
 # ADMIN URLS
 URL_ADMIN_USERS = "admin/realms/{realm-name}/users"
+URL_ADMIN_USERS_BY_ROLES = "admin/realms/{realm-name}/roles/{role-name}/users"
 URL_ADMIN_USERS_COUNT = "admin/realms/{realm-name}/users/count"
 URL_ADMIN_USER = "admin/realms/{realm-name}/users/{id}"
 URL_ADMIN_USER_CONSENTS = "admin/realms/{realm-name}/users/{id}/consents"
