@@ -241,4 +241,10 @@ idps = keycloak_admin.get_idps()
 # Create a new Realm
 keycloak_admin.create_realm(payload={"realm": "demo"}, skip_exists=False)
 
+# get users by roles
+keycloak_admin.get_users_by_role(role_name="role-name", query={})
+
+# add role to user
+keycloak_admin.add_role_to_user(role_name="role-name", query={})
+
 ```

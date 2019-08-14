@@ -37,7 +37,8 @@ from .urls_patterns import URL_ADMIN_SERVER_INFO, URL_ADMIN_CLIENT_AUTHZ_RESOURC
     URL_ADMIN_REALMS, URL_ADMIN_USERS_COUNT, URL_ADMIN_FLOWS, URL_ADMIN_GROUP, URL_ADMIN_CLIENT_AUTHZ_SETTINGS, \
     URL_ADMIN_GROUP_MEMBERS, URL_ADMIN_USER_STORAGE, URL_ADMIN_GROUP_PERMISSIONS, URL_ADMIN_IDPS, \
     URL_ADMIN_USER_CLIENT_ROLES_AVAILABLE, URL_ADMIN_USERS, URL_ADMIN_CLIENT_SCOPES, \
-    URL_ADMIN_CLIENT_SCOPES_ADD_MAPPER, URL_ADMIN_CLIENT_SCOPE, URL_ADMIN_CLIENT_SECRETS,URL_ADMIN_USERS_BY_ROLES
+    URL_ADMIN_CLIENT_SCOPES_ADD_MAPPER, URL_ADMIN_CLIENT_SCOPE, URL_ADMIN_CLIENT_SECRETS,URL_ADMIN_USERS_BY_ROLES,
+    URL_ADMIN_USERS_ROLES
 
 
 class KeycloakAdmin:
@@ -1007,4 +1008,16 @@ class KeycloakAdmin:
         """
         params_path = {"realm-name": self.realm_name, "role-name": role_name}
         return self.__fetch_all(URL_ADMIN_USERS_BY_ROLES.format(**params_path), query)
+
+
+    def get_users_by_role(self, user_id, client, payload):
+        """
+        Return List of Users that have the specified role name
+
+        POST admin/realms/{realm-name}/users/{id}/role-mappings/clients/{client}
+        """
+        params_path = {"realm-name": self.realm_name, "id": user_id, "client": client }
+        data_raw = self.connection.raw_post(URL_ADMIN_USERS_ROLES.format(**params_path),
+                                                data=json.dumps(payload))
+        return raise_error_from_response(data_raw, KeycloakGetError, expected_code=201, skip_exists=skip_exists)
 
