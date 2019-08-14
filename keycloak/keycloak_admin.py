@@ -1010,7 +1010,7 @@ class KeycloakAdmin:
         return self.__fetch_all(URL_ADMIN_USERS_BY_ROLES.format(**params_path), query)
 
 
-    def get_users_by_role(self, user_id, client, payload):
+    def add_role_to_user(self, user_id, client, payload):
         """
         Return List of Users that have the specified role name
 
