@@ -1020,5 +1020,5 @@ class KeycloakAdmin:
         params_path = {"realm-name": self.realm_name, "id": user_id, "client": client }
         data_raw = self.connection.raw_post(URL_ADMIN_USERS_ROLES.format(**params_path),
                                                 data=json.dumps(payload))
-        return raise_error_from_response(data_raw, KeycloakGetError, expected_code=201, skip_exists=skip_exists)
+        return raise_error_from_response(data_raw, KeycloakGetError, expected_code=201)
 
