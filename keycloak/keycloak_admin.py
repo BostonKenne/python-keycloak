@@ -38,7 +38,7 @@ from .urls_patterns import URL_ADMIN_SERVER_INFO, URL_ADMIN_CLIENT_AUTHZ_RESOURC
     URL_ADMIN_GROUP_MEMBERS, URL_ADMIN_USER_STORAGE, URL_ADMIN_GROUP_PERMISSIONS, URL_ADMIN_IDPS, \
     URL_ADMIN_USER_CLIENT_ROLES_AVAILABLE, URL_ADMIN_USERS, URL_ADMIN_CLIENT_SCOPES, \
     URL_ADMIN_CLIENT_SCOPES_ADD_MAPPER, URL_ADMIN_CLIENT_SCOPE, URL_ADMIN_CLIENT_SECRETS,URL_ADMIN_USERS_BY_ROLES,\
-    URL_ADMIN_USERS_ROLES
+    URL_ADMIN_USERS_CLIENTS_ROLES,URL_ADMIN_USERS_ADD_REALM_ROLES
 
 
 class KeycloakAdmin:
@@ -1011,14 +1011,26 @@ class KeycloakAdmin:
         return self.__fetch_all(URL_ADMIN_USERS_BY_ROLES.format(**params_path), query)
 
 
-    def add_role_to_user(self, user_id, client, payload):
+    def add_client_role_to_user(self, user_id, client, payload):
         """
         Return List of Users that have the specified role name
 
         POST admin/realms/{realm-name}/users/{id}/role-mappings/clients/{client}
         """
         params_path = {"realm-name": self.realm_name, "id": str(user_id), "client": client }
-        data_raw = self.connection.raw_post(URL_ADMIN_USERS_ROLES.format(**params_path),
+        data_raw = self.connection.raw_post(URL_ADMIN_USERS_CLIENTS_ROLES.format(**params_path),
+                                                data=json.dumps(payload))
+        return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
+
+
+    def add_realm_role_to_user(self, user_id, payload):
+        """
+        Add realm-level role mappings to the user
+        POST /{realm-name}/users/{id}/role-mappings/realm
+
+        """
+        params_path = {"realm-name": self.realm_name, "id": str(user_id) }
+        data_raw = self.connection.raw_post(URL_ADMIN_USERS_ADD_REALM_ROLES.format(**params_path),
                                                 data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
