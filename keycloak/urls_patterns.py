@@ -36,6 +36,17 @@ URL_AUTH = "{authorization-endpoint}?client_id={client-id}&response_type=code&re
 
 URL_ADMIN_USERS = "admin/realms/{realm-name}/users"
 
+# delete user role
+# /{realm}/users/{id}/role-mappings/realm
+URL_ADMIN_DELETE_USER_ROLE = "admin/realms/{realm-name}/users/{id}/role-mappings/realm"
+
+# get users role available
+URL_GET_ALL_USERS_ROLES = "admin/realms/{realm-name}/users/{id}/role-mappings/realm/available"
+
+# get users role available
+URL_ADMIN_USERS_BY_ROLES_COMPOSITE = "admin/realms/{realm-name}/users/{id}/role-mappings/realm/composite"
+
+
 URL_ADMIN_USERS_CLIENTS_ROLES = "admin/realms/{realm-name}/users/{id}/role-mappings/clients/{client}"
 URL_ADMIN_USERS_ADD_REALM_ROLES = "admin/realms/{realm-name}/users/{id}/role-mappings/realm"
 

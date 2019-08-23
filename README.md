@@ -247,4 +247,13 @@ keycloak_admin.get_users_by_role(role_name="role-name", query={})
 # add role to user
 keycloak_admin.add_role_to_user(role_name="role-name", query={})
 
+# delete_user_realm_role(self, user_id, payload)
+
+#delete user realm role
+query = {
+    'id': role_id,
+    'name': role_name
+}
+keycloak_admin.delete_user_realm_role(user_id=user_id, query=query)
+
 ```

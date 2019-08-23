@@ -38,7 +38,8 @@ from .urls_patterns import URL_ADMIN_SERVER_INFO, URL_ADMIN_CLIENT_AUTHZ_RESOURC
     URL_ADMIN_GROUP_MEMBERS, URL_ADMIN_USER_STORAGE, URL_ADMIN_GROUP_PERMISSIONS, URL_ADMIN_IDPS, \
     URL_ADMIN_USER_CLIENT_ROLES_AVAILABLE, URL_ADMIN_USERS, URL_ADMIN_CLIENT_SCOPES, \
     URL_ADMIN_CLIENT_SCOPES_ADD_MAPPER, URL_ADMIN_CLIENT_SCOPE, URL_ADMIN_CLIENT_SECRETS,URL_ADMIN_USERS_BY_ROLES,\
-    URL_ADMIN_USERS_CLIENTS_ROLES,URL_ADMIN_USERS_ADD_REALM_ROLES
+    URL_ADMIN_USERS_CLIENTS_ROLES,URL_ADMIN_USERS_ADD_REALM_ROLES,URL_ADMIN_DELETE_USER_ROLE, URL_GET_ALL_USERS_ROLES,\
+    URL_ADMIN_USERS_BY_ROLES_COMPOSITE
 
 
 class KeycloakAdmin:
@@ -1011,6 +1012,16 @@ class KeycloakAdmin:
         return self.__fetch_all(URL_ADMIN_USERS_BY_ROLES.format(**params_path), query)
 
 
+    # def count_users_by_role(self, role_name, query=None):
+    #     """
+    #     Return List of Users that have the specified role name
+
+    #     GET /{realm}/roles/{role-name}/users
+    #     """
+    #     params_path = {"realm-name": self.realm_name, "role-name": role_name}
+    #     return self.__fetch_all(URL_ADMIN_USERS_BY_ROLES.format(**params_path), query)
+
+
     def add_client_role_to_user(self, user_id, client, payload):
         """
         Return List of Users that have the specified role name
@@ -1033,4 +1044,39 @@ class KeycloakAdmin:
         data_raw = self.connection.raw_post(URL_ADMIN_USERS_ADD_REALM_ROLES.format(**params_path),
                                                 data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
+
+
+
+    def delete_user_realm_role(self, user_id, payload):
+        """
+        Delete realm-level role mappings
+        DELETE admin/realms/{realm-name}/users/{id}/role-mappings/realm
+
+        """
+        params_path = {"realm-name": self.realm_name, "id": str(user_id) }
+        data_raw = self.connection.raw_delete(URL_ADMIN_DELETE_USER_ROLE.format(**params_path),
+                                              data=json.dumps(payload))
+        return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
+
+
+
+    def get_realm_user_roles_available(self, user_id):
+        """
+        Get realm-level roles that can be mapped
+
+        GET admin/realms/{realm-name}/users/{id}/role-mappings/realm/available
+        """
+        params_path = {"realm-name": self.realm_name, "role-name": role_name}
+        return self.__fetch_all(URL_GET_ALL_USERS_ROLES.format(**params_path), query)
+
+
+    def get_realm_user_roles_composite(self, user_id):
+        """
+        Get user composite roles
+
+        GET /{realm}/users/{id}/role-mappings/realm/composite
+        """
+        params_path = {"realm-name": self.realm_name, "role-name": role_name}
+        return self.__fetch_all(URL_ADMIN_USERS_BY_ROLES_COMPOSITE.format(**params_path), query)
+
 
