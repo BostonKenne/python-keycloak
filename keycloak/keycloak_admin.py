@@ -1067,7 +1067,8 @@ class KeycloakAdmin:
         GET admin/realms/{realm-name}/users/{id}/role-mappings/realm/available
         """
         params_path = {"realm-name": self.realm_name, "id": str(user_id)}
-        return self.connection.raw_get(URL_GET_ALL_USERS_ROLES.format(**params_path))
+        data_raw = self.connection.raw_get(URL_GET_ALL_USERS_ROLES.format(**params_path))
+        return raise_error_from_response(data_raw, KeycloakGetError)
 
 
     def get_realm_user_roles_composite(self, user_id):
@@ -1076,7 +1077,8 @@ class KeycloakAdmin:
 
         GET /{realm}/users/{id}/role-mappings/realm/composite
         """
-        params_path = {"realm-name": self.realm_name, "role-name": str(user_id)}
-        return self.connection.raw_get(URL_ADMIN_USERS_BY_ROLES_COMPOSITE.format(**params_path))
+        params_path = {"realm-name": self.realm_name, "id": str(user_id)}
+        data_raw =  self.connection.raw_get(URL_ADMIN_USERS_BY_ROLES_COMPOSITE.format(**params_path))
+        return raise_error_from_response(data_raw, KeycloakGetError)
 
 
